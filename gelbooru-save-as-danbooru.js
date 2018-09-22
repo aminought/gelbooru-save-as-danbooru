@@ -37,16 +37,25 @@ function getImageExt(url) {
     return ext;
 }
 
-function insertAfter(newNode, referenceNode) {
-    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-}
-
 function getDanbooruStyleName(char_names, artist_names, copyright_names, image_id, image_ext) {
-    char_str = char_names.join('_and_')
-    copyright_str = copyright_names.join('_and_')
-    artist_str = artist_names.join('_and_')
+	image_name = '__';
+	if (char_names.length > 0) {
+		char_str = char_names.join('_and_');
+		image_name += `${char_str}_`;
+	}
+	if (copyright_names.length > 0) {
+		copyright_str = copyright_names.join('_and_');
+		image_name += `${copyright_str}_`;
+	}
+	if (artist_names.length > 0) {
+		artist_str = artist_names.join('_and_');
+		image_name += `drawn_by_${artist_str}`;
+	}
 
-    image_name = `__${char_str}_${copyright_str}_drawn_by_${artist_str}__${image_id}.${image_ext}`
+	if (artist_names.length > 0 || copyright_names.length > 0 || artist_names.length > 0) {
+		image_name += '__'
+	}
+	image_name += `${image_id}.${image_ext}`;
 
     image_name = image_name.replace(/[,\/#!$%\^&\*;:{}=\-~()]/g, '');
     image_name = image_name.replace(/\s/g, '_');
